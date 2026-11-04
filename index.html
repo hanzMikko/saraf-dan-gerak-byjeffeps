@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Digital Human Body Explorer</title>
+<style>
+
+:root{--biru:#2563eb;--ungu:#7c3aed;--bg:#f2f6ff;--kartu:#ffffff;--teks:#0f1b3d;--abu:#55628a;--garis:#dbe5fb;color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root{--bg:#0a1128;--kartu:#121c3d;--teks:#e8eeff;--abu:#9aa8d4;--garis:#26335f;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,Arial,sans-serif;background:var(--bg);color:var(--teks);line-height:1.6}
+
+header{background:linear-gradient(135deg,var(--biru),var(--ungu));color:#fff;padding:18px 20px;text-align:center}
+header h1{margin:0 0 10px;font-size:1.5rem}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+nav button{border:0;border-radius:99px;padding:8px 18px;font-size:1rem;cursor:pointer;background:rgba(255,255,255,.2);color:#fff;transition:.2s}
+nav button:hover{background:rgba(255,255,255,.35)}
+nav button.aktif{background:#fff;color:var(--biru);font-weight:700}
+
+main{max-width:900px;margin:auto;padding:24px 18px 50px}
+section{display:none}
+section.tampil{display:block}
+h2{font-size:1.7rem;margin-top:0}
+
+.kartu{background:var(--kartu);border:1px solid var(--garis);border-radius:20px;padding:20px;margin-bottom:16px;box-shadow:0 8px 24px rgba(37,99,235,.12);transition:transform .25s}
+.kartu:hover{transform:translateY(-4px)}
+.kartu h3{margin:6px 0}
+.kartu p{margin:0;color:var(--abu)}
+.baris{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.struktur-badan{margin:24px 0;overflow:hidden;background:#101b3b;border:1px solid var(--garis);border-radius:24px;box-shadow:0 16px 36px rgba(37,57,120,.2)}
+.struktur-badan svg{display:block;width:100%;height:auto}
+.struktur-badan figcaption{padding:12px 16px;text-align:center;color:var(--abu);font-size:.9rem;background:var(--kartu)}
+
+.tombol{border:0;border-radius:14px;padding:12px 22px;font-size:1rem;font-weight:700;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--biru),var(--ungu))}
+.tombol:hover{opacity:.9}
+:focus-visible{outline:3px solid var(--ungu);outline-offset:2px}
+
+.pilihan{display:block;width:100%;text-align:left;margin:8px 0;padding:12px 16px;font-size:1rem;border-radius:12px;border:1px solid var(--garis);background:var(--kartu);color:var(--teks);cursor:pointer}
+.pilihan:hover:not(:disabled){border-color:var(--biru)}
+.benar{background:#16a34a;color:#fff;border-color:#16a34a}
+.salah{background:#dc2626;color:#fff;border-color:#dc2626}
+footer{text-align:center;color:var(--abu);padding:20px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Digital Human Body Explorer</h1>
+  <nav>
+    <button onclick="buka('beranda')" id="m-beranda" class="aktif">Beranda</button>
+    <button onclick="buka('saraf')" id="m-saraf">Sistem Saraf</button>
+    <button onclick="buka('gerak')" id="m-gerak">Sistem Gerak</button>
+    <button onclick="buka('kuis')" id="m-kuis">Kuis</button>
+  </nav>
+</header>
+
+<main>
+  <section id="beranda" class="tampil">
+    <h2>Selamat datang!</h2>
+    <p>Website ini membantu kamu belajar <b>Sistem Saraf</b> dan <b>Sistem Gerak</b> manusia. Pilih menu di atas untuk mulai.</p>
+    <figure class="struktur-badan">
+      <svg viewBox="0 0 900 470" role="img" aria-labelledby="judul-struktur deskripsi-struktur">
+        <title id="judul-struktur">Peta tubuh manusia</title>
+        <desc id="deskripsi-struktur">Ilustrasi tubuh manusia berwarna dengan penunjuk ke otak, paru-paru, jantung, tulang belakang, dan tulang paha.</desc>
+        <defs>
+          <linearGradient id="latar-tubuh" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#172957"/>
+            <stop offset="1" stop-color="#302365"/>
+          </linearGradient>
+          <linearGradient id="siluet-tubuh" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#53d8ed"/>
+            <stop offset="1" stop-color="#8275ff"/>
+          </linearGradient>
+          <linearGradient id="aksen-organ" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ff93b8"/>
+            <stop offset="1" stop-color="#ffcf8a"/>
+          </linearGradient>
+        </defs>
+        <rect width="900" height="470" rx="24" fill="url(#latar-tubuh)"/>
+        <circle cx="455" cy="250" r="190" fill="#6c63ff" opacity=".09"/>
+        <circle cx="455" cy="250" r="150" fill="none" stroke="#a9b8ff" stroke-width="1" stroke-dasharray="3 9" opacity=".28"/>
+        <text x="34" y="43" fill="#fff" font-family="system-ui,Arial,sans-serif" font-size="15" font-weight="700" letter-spacing="2">PETA TUBUH MANUSIA</text>
+        <text x="34" y="66" fill="#b9c8ff" font-family="system-ui,Arial,sans-serif" font-size="12">Kenali bagian penting tubuhmu</text>
+
+        <g fill="none" stroke="#9eafff" stroke-width="1.5" opacity=".8">
+          <path d="M229 142h105l82 3"/>
+          <path d="M229 234h105l69 8"/>
+          <path d="M671 142H568l-89 95"/>
+          <path d="M671 234H566l-100 35"/>
+          <path d="M671 326H566l-91 35"/>
+        </g>
+        <g fill="#72e4f2">
+          <circle cx="416" cy="145" r="4"/>
+          <circle cx="403" cy="242" r="4"/>
+          <circle cx="479" cy="237" r="4"/>
+          <circle cx="466" cy="269" r="4"/>
+          <circle cx="475" cy="361" r="4"/>
+        </g>
+
+        <g fill="url(#siluet-tubuh)" stroke="#bcefff" stroke-width="2" stroke-linejoin="round">
+          <circle cx="450" cy="123" r="31"/>
+          <path d="M437 154h26v27h-26z"/>
+          <path d="M417 178q33-14 66 0l20 18-13 93q-2 18-18 25h-44q-16-7-18-25l-13-93z"/>
+          <path d="M419 185q-20 4-28 25l-27 78q-5 13 7 18 11 4 17-8l38-70z"/>
+          <path d="M481 185q20 4 28 25l27 78q5 13-7 18-11 4-17-8l-38-70z"/>
+          <path d="M425 309q25 12 50 0l10 10-17 16h-36l-17-16z"/>
+          <path d="M426 327l-12 84q-2 14 10 16 11 2 14-12l16-78z"/>
+          <path d="M474 327l12 84q2 14-10 16-11 2-14-12l-16-78z"/>
+        </g>
+        <g fill="none" stroke="#e8f7ff" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M433 121q-7-13 5-17 8-2 12 4 7-8 15-2 8 7 1 15 4 11-7 14-7 1-11-4-10 5-15-2-4-4 0-8z" fill="url(#aksen-organ)" stroke="#ffd6e5" stroke-width="2"/>
+          <path d="M450 174v139" stroke-width="5"/>
+          <path d="M450 197q-25-20-35-1-7 15 0 39 7 20 31 29m4-67q25-20 35-1 7 15 0 39-7 20-31 29" stroke-width="3"/>
+          <path d="M450 197q-19-4-31 4m31 7q-20-4-33 5m33 7q-21-3-34 7m34 7q-20-2-33 8m33 6q-18 0-30 9m30-53q19-4 31 4m-31 7q20-4 33 5m-33 7q21-3 34 7m-34 7q20-2 33 8m-33 6q18 0 30 9" stroke-width="2"/>
+          <path d="M450 246c-10-12-22-4-18 6l18 19 18-19c4-10-8-18-18-6z" fill="url(#aksen-organ)" stroke="#ffd6e5" stroke-width="2"/>
+          <path d="M450 315l-20 13 20 10 20-10z" stroke-width="3"/>
+          <path d="M431 338l-12 69m50-69 12 69" stroke-width="5"/>
+          <path d="M430 349l-8 46m48-46 8 46" stroke="#a9b8ff" stroke-width="2"/>
+        </g>
+
+        <g font-family="system-ui,Arial,sans-serif">
+          <g>
+            <rect x="28" y="112" width="201" height="60" rx="15" fill="#fff" opacity=".97"/>
+            <circle cx="51" cy="142" r="13" fill="#e7eaff"/>
+            <text x="51" y="147" text-anchor="middle" fill="#6554d9" font-size="14" font-weight="700">1</text>
+            <text x="73" y="139" fill="#172957" font-size="14" font-weight="700">Otak</text>
+            <text x="73" y="157" fill="#596887" font-size="11">Pusat kendali tubuh</text>
+          </g>
+          <g>
+            <rect x="28" y="204" width="201" height="60" rx="15" fill="#fff" opacity=".97"/>
+            <circle cx="51" cy="234" r="13" fill="#e7eaff"/>
+            <text x="51" y="239" text-anchor="middle" fill="#6554d9" font-size="14" font-weight="700">2</text>
+            <text x="73" y="231" fill="#172957" font-size="14" font-weight="700">Paru-paru</text>
+            <text x="73" y="249" fill="#596887" font-size="11">Membantu kita bernapas</text>
+          </g>
+          <g>
+            <rect x="671" y="112" width="201" height="60" rx="15" fill="#fff" opacity=".97"/>
+            <circle cx="694" cy="142" r="13" fill="#ffe8ec"/>
+            <text x="694" y="147" text-anchor="middle" fill="#d64e77" font-size="14" font-weight="700">3</text>
+            <text x="716" y="139" fill="#172957" font-size="14" font-weight="700">Jantung</text>
+            <text x="716" y="157" fill="#596887" font-size="11">Memompa darah</text>
+          </g>
+          <g>
+            <rect x="671" y="204" width="201" height="60" rx="15" fill="#fff" opacity=".97"/>
+            <circle cx="694" cy="234" r="13" fill="#e7eaff"/>
+            <text x="694" y="239" text-anchor="middle" fill="#6554d9" font-size="14" font-weight="700">4</text>
+            <text x="716" y="231" fill="#172957" font-size="14" font-weight="700">Tulang belakang</text>
+            <text x="716" y="249" fill="#596887" font-size="11">Menopang tubuh</text>
+          </g>
+          <g>
+            <rect x="671" y="296" width="201" height="60" rx="15" fill="#fff" opacity=".97"/>
+            <circle cx="694" cy="326" r="13" fill="#e7eaff"/>
+            <text x="694" y="331" text-anchor="middle" fill="#6554d9" font-size="14" font-weight="700">5</text>
+            <text x="716" y="323" fill="#172957" font-size="14" font-weight="700">Tulang paha</text>
+            <text x="716" y="341" fill="#596887" font-size="11">Bagian dari rangka</text>
+          </g>
+        </g>
+      </svg>
+      <figcaption>Ilustrasi bagian tubuh manusia dan fungsi utamanya.</figcaption>
+    </figure>
+    <div class="baris">
+      <div class="kartu"><h3>Sistem Saraf</h3><p>Mengatur dan mengoordinasi seluruh kerja tubuh.</p></div>
+      <div class="kartu"><h3>Sistem Gerak</h3><p>Tulang, otot, dan sendi yang membuat tubuh bergerak.</p></div>
+      <div class="kartu"><h3>Kuis</h3><p>Uji pemahamanmu dengan 5 soal.</p></div>
+    </div>
+    <p><button class="tombol" onclick="buka('saraf')">Mulai belajar</button></p>
+  </section>
+
+  <!-- SISTEM SARAF -->
+  <section id="saraf">
+    <h2>Sistem Saraf</h2>
+    <p>Sistem saraf bekerja dengan mengirim <b>impuls</b> (sinyal listrik) ke seluruh tubuh. Klik kartu untuk membaca penjelasannya.</p>
+    <div class="kartu" onclick="lihat(this)"><h3>Neuron (sel saraf)</h3><p class="isi" hidden>Neuron terdiri dari dendrit (menerima rangsangan), badan sel, dan akson (mengirim impuls ke sel lain).</p><p class="petunjuk">Klik untuk membuka</p></div>
+    <div class="kartu" onclick="lihat(this)"><h3>Sistem saraf pusat</h3><p class="isi" hidden>Terdiri dari otak dan sumsum tulang belakang. Otak mengatur berpikir, ingatan, dan keseimbangan. Sumsum tulang belakang menjadi jalur impuls dan pusat refleks.</p><p class="petunjuk">Klik untuk membuka</p></div>
+    <div class="kartu" onclick="lihat(this)"><h3>Sistem saraf tepi</h3><p class="isi" hidden>Menghubungkan sistem saraf pusat dengan seluruh tubuh. Ada saraf somatik (sesuai kehendak) dan saraf otonom (otomatis, misalnya detak jantung).</p><p class="petunjuk">Klik untuk membuka</p></div>
+    <div class="kartu" onclick="lihat(this)"><h3>Gerak refleks</h3><p class="isi" hidden>Respons cepat tanpa menunggu otak. Jalurnya: rangsangan → reseptor → saraf sensorik → sumsum tulang belakang → saraf motorik → efektor (otot).</p><p class="petunjuk">Klik untuk membuka</p></div>
+  </section>
+
+  <!-- SISTEM GERAK -->
+  <section id="gerak">
+    <h2>Sistem Gerak</h2>
+    <p>Sistem gerak terdiri dari tulang, otot, dan sendi. Klik kartu untuk membaca penjelasannya.</p>
+    <div class="kartu" onclick="lihat(this)"><h3>Tulang (rangka)</h3><p class="isi" hidden>Manusia dewasa punya 206 tulang. Fungsinya menopang tubuh, melindungi organ, dan tempat melekatnya otot.</p><p class="petunjuk">Klik untuk membuka</p></div>
+    <div class="kartu" onclick="lihat(this)"><h3>Otot</h3><p class="isi" hidden>Alat gerak aktif. Ada otot rangka (sesuai kehendak), otot polos, dan otot jantung (keduanya tidak sesuai kehendak). Otot bekerja berpasangan, contohnya biseps dan triseps.</p><p class="petunjuk">Klik untuk membuka</p></div>
+    <div class="kartu" onclick="lihat(this)"><h3>Sendi</h3><p class="isi" hidden>Hubungan antar tulang. Contoh: sendi engsel (lutut dan siku), sendi peluru (bahu dan pinggul), sendi putar (leher).</p><p class="petunjuk">Klik untuk membuka</p></div>
+    <div class="kartu" onclick="lihat(this)"><h3>Gangguan pada sistem gerak</h3><p class="isi" hidden>Osteoporosis (tulang keropos), skoliosis (tulang belakang melengkung ke samping), dan kram otot.</p><p class="petunjuk">Klik untuk membuka</p></div>
+  </section>
+
+  <!-- KUIS -->
+  <section id="kuis">
+    <h2>Kuis</h2>
+    <div class="kartu" id="kotakKuis"></div>
+  </section>
+
+</main>
+<footer>Digital Human Body Explorer · IPAS kelas X PPLG</footer>
+
+<script>
+// 1. Pindah halaman: sembunyikan semua, tampilkan yang dipilih
+function buka(nama){
+  var daftar=['beranda','saraf','gerak','kuis'];
+  for(var i=0;i<daftar.length;i++){
+    document.getElementById(daftar[i]).classList.remove('tampil');
+    document.getElementById('m-'+daftar[i]).classList.remove('aktif');
+  }
+  document.getElementById(nama).classList.add('tampil');
+  document.getElementById('m-'+nama).classList.add('aktif');
+  window.scrollTo(0,0);
+}
+
+// 2. Buka/tutup penjelasan di kartu
+function lihat(kartu){
+  var isi=kartu.querySelector('.isi');
+  var petunjuk=kartu.querySelector('.petunjuk');
+  isi.hidden=!isi.hidden;
+  petunjuk.textContent=isi.hidden?'Klik untuk membuka':'Klik untuk menutup';
+}
+
+// 3. Kuis: pertanyaan, pilihan jawaban, dan nomor jawaban yang benar (mulai dari 0)
+var soal=[
+  {tanya:'Bagian neuron yang menerima rangsangan adalah...',pilihan:['Dendrit','Akson','Badan sel'],benar:0},
+  {tanya:'Pusat gerak refleks berada di...',pilihan:['Otak','Sumsum tulang belakang','Jantung'],benar:1},
+  {tanya:'Jumlah tulang manusia dewasa adalah...',pilihan:['150','206','300'],benar:1},
+  {tanya:'Sendi pada lutut dan siku termasuk sendi...',pilihan:['Peluru','Putar','Engsel'],benar:2},
+  {tanya:'Otot yang bekerja berpasangan dengan biseps adalah...',pilihan:['Triseps','Jantung','Polos'],benar:0}
+];
+var nomor=0, skor=0;
+
+function tampilSoal(){
+  var kotak=document.getElementById('kotakKuis');
+  if(nomor>=soal.length){
+    kotak.innerHTML='<h3>Skor kamu: '+skor+' dari '+soal.length+'</h3><p>'+(skor>=4?'Hebat!':'Ayo belajar lagi, lalu coba sekali lagi.')+'</p><br><button class="tombol" onclick="ulang()">Ulangi kuis</button>';
+    return;
+  }
+  var s=soal[nomor];
+  kotak.innerHTML='<p>Soal '+(nomor+1)+' dari '+soal.length+'</p><h3>'+s.tanya+'</h3>';
+  for(var i=0;i<s.pilihan.length;i++){
+    var tb=document.createElement('button');
+    tb.className='pilihan';
+    tb.textContent=s.pilihan[i];
+    tb.setAttribute('data-no',i);
+    tb.onclick=jawab;
+    kotak.appendChild(tb);
+  }
+}
+
+function jawab(e){
+  var dipilih=Number(e.target.getAttribute('data-no'));
+  var benar=soal[nomor].benar;
+  var semua=document.querySelectorAll('.pilihan');
+  for(var i=0;i<semua.length;i++){ semua[i].disabled=true; }
+  semua[benar].classList.add('benar');
+  if(dipilih===benar){ skor++; } else { e.target.classList.add('salah'); }
+  var lanjut=document.createElement('button');
+  lanjut.className='tombol';
+  lanjut.textContent=(nomor===soal.length-1)?'Lihat skor':'Soal berikutnya';
+  lanjut.onclick=function(){ nomor++; tampilSoal(); };
+  document.getElementById('kotakKuis').appendChild(lanjut);
+}
+
+function ulang(){ nomor=0; skor=0; tampilSoal(); }
+tampilSoal();
+</script>
+</body>
+</html>
